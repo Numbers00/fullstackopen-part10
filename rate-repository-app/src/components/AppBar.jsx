@@ -9,14 +9,14 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.appBarBg,
-    flexDirection: "row"
+    flexDirection: 'row'
   }
 });
 
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <AppBarTab text="Repositories" />
+      <AppBarTab text='Repositories' />
     </View>
   );
 };

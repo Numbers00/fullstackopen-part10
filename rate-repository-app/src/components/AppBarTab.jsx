@@ -7,7 +7,9 @@ import Text from './Text';
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingTop: 8,
+    paddingBottom: 8
   }
 });
 
@@ -16,8 +18,8 @@ const AppBarTab = ({ text }) => {
     <Pressable onPress={() => console.log('pressed')}>
       <View style={styles.container}>
         <View />
-        <MaterialCommunityIcons name="source-repository" size={36} color="white" />
-        <Text isWhite fontWeight="bold">{ text }</Text>
+        <MaterialCommunityIcons name='source-repository' size={36} color='white' />
+        <Text isWhite fontWeight='bold'>{ text }</Text>
       </View>
     </Pressable>
   );
