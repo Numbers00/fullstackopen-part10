@@ -1,11 +1,13 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Link } from "react-router-native";
 
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import Text from './Text';
 
 const styles = StyleSheet.create({
   container: {
+    width: Dimensions.get('window').width / 2,
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingTop: 8,
@@ -13,15 +15,20 @@ const styles = StyleSheet.create({
   }
 });
 
-const AppBarTab = ({ text }) => {
+const AppBarTab = ({ text, to }) => {
   return (
-    <Pressable onPress={() => console.log('pressed')}>
-      <View style={styles.container}>
-        <View />
-        <MaterialCommunityIcons name='source-repository' size={36} color='white' />
-        <Text isWhite fontWeight='bold'>{ text }</Text>
-      </View>
-    </Pressable>
+    <TouchableOpacity>
+      <Link to={to}>
+        <View style={styles.container}>
+          <View />
+          {text === 'Repositories'
+            ? <MaterialCommunityIcons name='source-repository' size={24} color='white' />
+            : <MaterialIcons name="login" size={24} color="white" />
+          }
+          <Text isWhite fontWeight='bold'>{ text }</Text>
+        </View>
+      </Link>
+    </TouchableOpacity>
   );
 };
 
