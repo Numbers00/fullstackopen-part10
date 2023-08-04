@@ -14,6 +14,8 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  // Constants.manifest has been deprecated in favor of Constant.expoconfig
+  // console.log(Constants.expoConfig);
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
