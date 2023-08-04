@@ -30,6 +30,7 @@ export default {
   web: {
     favicon: './assets/favicon.png'
   },
+  jsEngine: 'hermes',
   extra: {
     env: process.env.ENV,
     apolloUri: process.env.APOLLO_URI
