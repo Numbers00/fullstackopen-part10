@@ -5,6 +5,8 @@ import AppBarTab from './AppBarTab';
 
 import theme from '../../theme';
 
+import useMe from '../../hooks/useMe';
+
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
@@ -16,11 +18,17 @@ const styles = StyleSheet.create({
 const AppBar = () => {
   // Constants.manifest has been deprecated in favor of Constant.expoconfig
   // console.log(Constants.expoConfig);
+
+  const { data: { me } } = useMe();
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab text='Repositories' to='/' />
-        <AppBarTab text='Sign In' to='/sign-in' />
+        {!me 
+          ? <AppBarTab text='Sign In' to='/sign-in' />
+          : <AppBarTab text='Sign Out' to='/sign-out' />
+        }
       </ScrollView>
     </View>
   );
