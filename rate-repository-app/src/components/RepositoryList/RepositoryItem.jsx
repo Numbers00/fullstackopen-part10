@@ -1,8 +1,8 @@
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 
-import Text from './Text';
+import Text from '../Text';
 
-import theme from '../theme';
+import theme from '../../theme';
 
 const styles = StyleSheet.create({
   image: {

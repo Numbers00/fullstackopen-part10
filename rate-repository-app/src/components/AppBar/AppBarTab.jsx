@@ -3,7 +3,7 @@ import { Link } from "react-router-native";
 
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import Text from './Text';
+import Text from '../Text';
 
 const styles = StyleSheet.create({
   container: {
