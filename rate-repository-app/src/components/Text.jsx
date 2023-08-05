@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Text = ({ isWhite, color, fontSize, fontWeight, mt, me, mb, ms, style, ...props }) => {
+const Text = ({ isWhite, color, fontSize, fontWeight, mt, me, mb, ms, textAlign, style, ...props }) => {
   const textStyle = [
     styles.text,
     isWhite && { color: 'white' },
@@ -35,6 +35,7 @@ const Text = ({ isWhite, color, fontSize, fontWeight, mt, me, mb, ms, style, ...
     me && { marginRight: me },
     mb && { marginBottom: mb },
     ms && { marginLeft: ms },
+    textAlign && { textAlign },
     style,
   ];
 

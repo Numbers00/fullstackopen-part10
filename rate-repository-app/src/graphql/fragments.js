@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 
 export const REPOSITORY_NODE_FIELDS = gql`
   fragment RepositoryNodeFields on Repository {
+    id
     ownerAvatarUrl
     fullName
     description
@@ -10,6 +11,7 @@ export const REPOSITORY_NODE_FIELDS = gql`
     forksCount
     reviewCount
     ratingAverage
+    url
   }
 `;
 

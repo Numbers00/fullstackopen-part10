@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-native';
+
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 
 import Text from '../Text';
@@ -8,19 +10,19 @@ const styles = StyleSheet.create({
   image: {
     width: 48,
     height: 48,
-    borderRadius: 8
+    borderRadius: 4
   },
   imageContainer: {
     padding: 16,
     paddingTop: 0
   },
   buttonContainer: {
-    borderRadius: 8,
+    borderRadius: 4,
     backgroundColor: theme.colors.primary,
     flexDirection: 'row',
     alignSelf: 'flex-start',
     alignItems: 'center',
-    padding: 8
+    padding: 4
   },
   detailBox: {
     width: '25%',
@@ -34,49 +36,53 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryItem = ({ item }) => {
+  const navigate = useNavigate();
+
   const processCount = count => {
     if (count < 1000) return count;
     return `${(count / 1000).toFixed(1)}k`;
   };
 
   return (
-    <View testID='repositoryItem' style={{ backgroundColor: 'white', paddingTop: 16, paddingBottom: 16 }}>
-      <View style={[styles.flexRow, { marginBottom: 8 }]}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={{ uri: item.ownerAvatarUrl }}
-          />
+    <Pressable onPress={() => navigate(`/repositories/${item.id}`)}>
+      <View testID='repositoryItem' style={{ backgroundColor: 'white', paddingTop: 16, paddingBottom: 16 }}>
+        <View style={[styles.flexRow, { marginBottom: 8 }]}>
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.image}
+              source={{ uri: item.ownerAvatarUrl }}
+            />
+          </View>
+          <View style={{ flexShrink: 1 }}>
+            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ item.fullName }</Text>
+            <Text color='textSecondary' mb={4} style={{ flex: 1, flexWrap: 'wrap' }}>{ item.description }</Text>
+            <Pressable onPress={() => {}}>
+              <View style={styles.buttonContainer}>
+                <Text isWhite>{ item.language }</Text>
+              </View>
+            </Pressable>
+          </View>
         </View>
-        <View style={{ flexShrink: 1 }}>
-          <Text fontWeight='bold' fontSize='subheading' mb={4}>{ item.fullName }</Text>
-          <Text color='textSecondary' mb={4} style={{ flex: 1, flexWrap: 'wrap' }}>{ item.description }</Text>
-          <Pressable onPress={() => console.log('pressed')}>
-            <View style={styles.buttonContainer}>
-              <Text isWhite>{ item.language }</Text>
-            </View>
-          </Pressable>
+        <View style={styles.flexRow}>
+          <View style={styles.detailBox}>
+            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ processCount(item.stargazersCount) }</Text>
+            <Text color='textSecondary'>Stars</Text>
+          </View>
+          <View style={styles.detailBox}>
+            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ processCount(item.forksCount) }</Text>
+            <Text color='textSecondary'>Forks</Text>
+          </View>
+          <View style={styles.detailBox}>
+            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ processCount(item.reviewCount) }</Text>
+            <Text color='textSecondary'>Reviews</Text>
+          </View>
+          <View style={styles.detailBox}>
+            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ item.ratingAverage }</Text>
+            <Text color='textSecondary'>Rating</Text>
+          </View>
         </View>
       </View>
-      <View style={styles.flexRow}>
-        <View style={styles.detailBox}>
-          <Text fontWeight='bold' fontSize='subheading' mb={4}>{ processCount(item.stargazersCount) }</Text>
-          <Text color='textSecondary'>Stars</Text>
-        </View>
-        <View style={styles.detailBox}>
-          <Text fontWeight='bold' fontSize='subheading' mb={4}>{ processCount(item.forksCount) }</Text>
-          <Text color='textSecondary'>Forks</Text>
-        </View>
-        <View style={styles.detailBox}>
-          <Text fontWeight='bold' fontSize='subheading' mb={4}>{ processCount(item.reviewCount) }</Text>
-          <Text color='textSecondary'>Reviews</Text>
-        </View>
-        <View style={styles.detailBox}>
-          <Text fontWeight='bold' fontSize='subheading' mb={4}>{ item.ratingAverage }</Text>
-          <Text color='textSecondary'>Rating</Text>
-        </View>
-      </View>
-    </View>
+    </Pressable>
   );
 };
 
