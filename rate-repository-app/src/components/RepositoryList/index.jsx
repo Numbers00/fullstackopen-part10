@@ -29,6 +29,7 @@ export const RepositoryListContainer = ({ repositories, loading }) => {
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => <RepositoryItem testID='RepositoryItem' item={item} />}
+      keyExtractor={({ id }) => id}
     />
   );
 };

@@ -23,3 +23,25 @@ export const REPOSITORY_EDGE_FIELDS = gql`
   }
   ${REPOSITORY_NODE_FIELDS}
 `;
+
+export const REVIEW_NODE_FIELDS = gql`
+  fragment ReviewNodeFields on Review {
+    id
+    text
+    rating
+    createdAt
+    user {
+      id
+      username
+    }
+  }
+`;
+
+export const REVIEW_EDGE_FIELDS = gql`
+  fragment ReviewEdgeFields on ReviewEdge {
+    node {
+      ...ReviewNodeFields
+    }
+  }
+  ${REVIEW_NODE_FIELDS}
+`;

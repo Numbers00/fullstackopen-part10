@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const RepositoryItem = ({ item }) => {
+const RepositoryItem = ({ item: repository }) => {
   const navigate = useNavigate();
 
   const processCount = count => {
@@ -44,40 +44,40 @@ const RepositoryItem = ({ item }) => {
   };
 
   return (
-    <Pressable onPress={() => navigate(`/repositories/${item.id}`)}>
+    <Pressable onPress={() => navigate(`/repositories/${repository.id}`)}>
       <View testID='repositoryItem' style={{ backgroundColor: 'white', paddingTop: 16, paddingBottom: 16 }}>
         <View style={[styles.flexRow, { marginBottom: 8 }]}>
           <View style={styles.imageContainer}>
             <Image
               style={styles.image}
-              source={{ uri: item.ownerAvatarUrl }}
+              source={{ uri: repository.ownerAvatarUrl }}
             />
           </View>
           <View style={{ flexShrink: 1 }}>
-            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ item.fullName }</Text>
-            <Text color='textSecondary' mb={4} style={{ flex: 1, flexWrap: 'wrap' }}>{ item.description }</Text>
+            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ repository.fullName }</Text>
+            <Text color='textSecondary' mb={4} style={{ flex: 1, flexWrap: 'wrap' }}>{ repository.description }</Text>
             <Pressable onPress={() => {}}>
               <View style={styles.buttonContainer}>
-                <Text isWhite>{ item.language }</Text>
+                <Text isWhite>{ repository.language }</Text>
               </View>
             </Pressable>
           </View>
         </View>
         <View style={styles.flexRow}>
           <View style={styles.detailBox}>
-            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ processCount(item.stargazersCount) }</Text>
+            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ processCount(repository.stargazersCount) }</Text>
             <Text color='textSecondary'>Stars</Text>
           </View>
           <View style={styles.detailBox}>
-            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ processCount(item.forksCount) }</Text>
+            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ processCount(repository.forksCount) }</Text>
             <Text color='textSecondary'>Forks</Text>
           </View>
           <View style={styles.detailBox}>
-            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ processCount(item.reviewCount) }</Text>
+            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ processCount(repository.reviewCount) }</Text>
             <Text color='textSecondary'>Reviews</Text>
           </View>
           <View style={styles.detailBox}>
-            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ item.ratingAverage }</Text>
+            <Text fontWeight='bold' fontSize='subheading' mb={4}>{ repository.ratingAverage }</Text>
             <Text color='textSecondary'>Rating</Text>
           </View>
         </View>
