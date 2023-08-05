@@ -40,7 +40,7 @@ const RepositoryItem = ({ item }) => {
   };
 
   return (
-    <View style={{ backgroundColor: 'white', paddingTop: 16, paddingBottom: 16 }}>
+    <View testID='repositoryItem' style={{ backgroundColor: 'white', paddingTop: 16, paddingBottom: 16 }}>
       <View style={[styles.flexRow, { marginBottom: 8 }]}>
         <View style={styles.imageContainer}>
           <Image

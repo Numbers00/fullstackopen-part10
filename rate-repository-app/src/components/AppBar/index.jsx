@@ -19,13 +19,13 @@ const AppBar = () => {
   // Constants.manifest has been deprecated in favor of Constant.expoconfig
   // console.log(Constants.expoConfig);
 
-  const { data: { me } } = useMe();
+  const { data: me, loading } = useMe();
 
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab text='Repositories' to='/' />
-        {!me 
+        {loading || !me.me 
           ? <AppBarTab text='Sign In' to='/sign-in' />
           : <AppBarTab text='Sign Out' to='/sign-out' />
         }
