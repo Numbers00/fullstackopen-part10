@@ -28,8 +28,10 @@ const AppBarTab = ({ text, to }) => {
       return <MaterialIcons name="login" size={24} color="white" />;
     case 'Sign Out':
       return <MaterialIcons name="logout" size={24} color="white" />;
+    case 'Create a review':
+      return <MaterialIcons name="rate-review" size={24} color="white" />;
     default:
-      return null;
+      throw new Error(`Unhandled tab: ${text}`);
     }
   })();
 
