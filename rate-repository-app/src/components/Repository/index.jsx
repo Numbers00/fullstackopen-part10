@@ -19,12 +19,15 @@ const ItemSeparator = () => <View style={{ height: 10 }} />;
 const Repository = () => {
   const { id } = useParams();
 
-  const { data, loading } = useRepository(id);
-  const repository = data?.repository;
+  const { repository, fetchMore, loading } = useRepository({ id, first: 5 });
   const reviewNodes = repository?.reviews?.edges.map(edge => edge.node) || [];
 
+  const onEndReached = () => {
+    fetchMore();
+  };
+
   if (loading) return (<View><Text>Loading repository...</Text></View>);
-  else if (!data) return (<View><Text>Repository with id: ${ id } not found</Text></View>);
+  else if (!repository) return (<View><Text>Repository with id: ${ id } not found</Text></View>);
 
   return (
     <FlatList
@@ -38,6 +41,8 @@ const Repository = () => {
           <ItemSeparator />
         </>
       )}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.5}
     />
   );
 };

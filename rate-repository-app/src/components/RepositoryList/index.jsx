@@ -63,9 +63,9 @@ export class RepositoryListContainer extends React.Component {
   };
 
   render() {
-    const { repositories, loading } = this.props;
+    const { repositories, loading, onEndReached } = this.props;
 
-    const repositoryNodes = repositories?.repositories?.edges?.map(edge => edge.node) || [];
+    const repositoryNodes = repositories?.edges?.map(edge => edge.node) || [];
 
     return (
       <FlatList
@@ -81,6 +81,8 @@ export class RepositoryListContainer extends React.Component {
         }}
         keyExtractor={({ id }) => id}
         ListHeaderComponent={this.renderHeader}
+        onEndReached={onEndReached}
+        onEndReachedThreshold={0.5}
       />
     );
   }
@@ -88,7 +90,7 @@ export class RepositoryListContainer extends React.Component {
 
 
 const RepositoryList = () => {
-  const { data: repositories, loading, refetch } = useRepositories('Latest repositories');
+  const { repositories, loading, fetchMore, refetch } = useRepositories({ first: 8 });
 
   const [searchKeyword, setSearchKeyword] = useState('');
   const [orderBy, setOrderBy] = useState('latest repositories');
@@ -98,13 +100,13 @@ const RepositoryList = () => {
   const refetchRepositories = () => {
     switch (orderBy) {
     case 'latest repositories':
-      refetch({ searchKeyword: debouncedSearchKeyword, orderBy: 'CREATED_AT', orderDirection: 'DESC' });
+      refetch({ first: 8, searchKeyword: debouncedSearchKeyword, orderBy: 'CREATED_AT', orderDirection: 'DESC' });
       break;
     case 'highest rated repositories':
-      refetch({ searchKeyword: debouncedSearchKeyword, orderBy: 'RATING_AVERAGE', orderDirection: 'DESC' });
+      refetch({ first: 8, searchKeyword: debouncedSearchKeyword, orderBy: 'RATING_AVERAGE', orderDirection: 'DESC' });
       break;
     case 'lowest rated repositories':
-      refetch({ searchKeyword: debouncedSearchKeyword, orderBy: 'RATING_AVERAGE', orderDirection: 'ASC' });
+      refetch({ first: 8, searchKeyword: debouncedSearchKeyword, orderBy: 'RATING_AVERAGE', orderDirection: 'ASC' });
       break;
     default:
       throw new Error(`Unhandled orderBy: ${orderBy}`);
@@ -115,11 +117,16 @@ const RepositoryList = () => {
     refetchRepositories();
   }, [debouncedSearchKeyword, orderBy]);
 
+  const onEndReached = () => {
+    fetchMore();
+  };
+
   return <RepositoryListContainer
     repositories={repositories}
     loading={loading}
     searchKeyword={searchKeyword}
     setSearchKeyword={setSearchKeyword}
+    onEndReached={onEndReached}
     orderBy={orderBy}
     setOrderBy={setOrderBy}
   />;

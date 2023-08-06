@@ -79,7 +79,7 @@ export const RepositoryListContainer = (props) => {
 
 
 const RepositoryList = () => {
-  const { data: repositories, loading, refetch } = useRepositories('Latest repositories');
+  const { data: repositories, loading, refetch } = useRepositories();
 
   const [searchKeyword, setSearchKeyword] = useState('');
   const [orderBy, setOrderBy] = useState('latest repositories');
