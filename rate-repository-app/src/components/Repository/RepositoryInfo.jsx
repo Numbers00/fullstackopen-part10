@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingTop: 0
   },
-  buttonContainer: {
+  button: {
     borderRadius: 4,
     backgroundColor: theme.colors.primary,
     flexDirection: 'row',
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  largeButtonContainer: {
+  largeButton: {
     borderRadius: 4,
     backgroundColor: theme.colors.primary,
     padding: 12
@@ -63,7 +63,7 @@ const RepositoryInfo = ({ repository }) => {
         <View>
           <Text fontWeight='bold' fontSize='subheading' mb={4}>{ repository.fullName }</Text>
           <Text color='textSecondary' mb={4} style={{ flexWrap: 'wrap' }}>{ repository.description }</Text>
-          <Pressable style={styles.buttonContainer} onPress={() => console.log('pressed')}>
+          <Pressable style={styles.button} onPress={() => console.log('pressed')}>
             <Text isWhite>{ repository.language }</Text>
           </Pressable>
         </View>
@@ -88,7 +88,7 @@ const RepositoryInfo = ({ repository }) => {
       </View>
       <View style={{ padding: 16 }}>
         <Pressable
-          style={styles.largeButtonContainer}
+          style={styles.largeButton}
           onPress={() => Linking.openURL(repository.url)}
         >
           <Text isWhite fontWeight='bold' textAlign='center'>Open in GitHub</Text>

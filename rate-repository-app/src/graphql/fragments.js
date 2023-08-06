@@ -27,8 +27,9 @@ export const REPOSITORY_EDGE_FIELDS = gql`
 export const REVIEW_NODE_FIELDS = gql`
   fragment ReviewNodeFields on Review {
     id
-    text
     rating
+    repositoryId
+    text
     createdAt
     user {
       id
