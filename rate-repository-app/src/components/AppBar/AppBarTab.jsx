@@ -1,4 +1,4 @@
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Link } from "react-router-native";
 
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -28,6 +28,8 @@ const AppBarTab = ({ text, to }) => {
       return <MaterialIcons name="login" size={24} color="white" />;
     case 'Sign Out':
       return <MaterialIcons name="logout" size={24} color="white" />;
+    case 'Sign Up':
+      return <AntDesign name="adduser" size={24} color="white" />;
     case 'Create a review':
       return <MaterialIcons name="rate-review" size={24} color="white" />;
     default:

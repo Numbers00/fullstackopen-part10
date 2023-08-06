@@ -81,7 +81,7 @@ const validationSchema = yup.object().shape({
 export const CreateReviewContainer = ({ onSubmit }) => {
   return (
     <Formik
-      initialValues={{ username: '', password: '' }}
+      initialValues={{ ownerName: '', repositoryName: '', rating: '', text: '' }}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >

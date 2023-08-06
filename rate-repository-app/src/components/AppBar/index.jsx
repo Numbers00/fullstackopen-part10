@@ -29,6 +29,7 @@ const AppBar = () => {
           ? (
             <>
               <AppBarTab text='Sign In' to='/sign-in' />
+              <AppBarTab text='Sign Up' to='/sign-up' />
             </>
           )
           : (
