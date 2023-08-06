@@ -1,6 +1,7 @@
 import { Picker } from '@react-native-picker/picker';
+import { useDebounce } from 'use-debounce';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 
 import RepositoryItem from './RepositoryItem';
@@ -8,8 +9,18 @@ import RepositoryItem from './RepositoryItem';
 import useRepositories from '../../hooks/useRepositories';
 
 import Text from './../Text';
+import TextInput from './../TextInput';
 
 const styles = StyleSheet.create({
+  textInput: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 4,
+    backgroundColor: 'white',
+    padding: 4,
+    paddingLeft: 8
+  },
   separator: {
     height: 10
   },
@@ -18,22 +29,26 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 
-// pure component, i.e., no side effects, e.g., fetching data through a hook
+// this is a pure component, i.e., no side effects, e.g., fetching data through a hook
 // exported to be used in tests
-export const RepositoryListContainer = ({ repositories, loading, orderBy, setOrderBy }) => {
-  const repositoryNodes = repositories?.repositories?.edges?.map(edge => edge.node) || [];
 
-  if (loading) return (<View><Text>Loading repositories...</Text></View>);
-  else if (!repositoryNodes) return (<View><Text>No repositories</Text></View>);
+// useCallback alternative doesn't work
+// converted to a class to prevent unnecessary re-renders
+export class RepositoryListContainer extends React.Component {
   
-  return (
-    <FlatList
-      testID='flatList'
-      data={repositoryNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <RepositoryItem testID='RepositoryItem' item={item} />}
-      keyExtractor={({ id }) => id}
-      ListHeaderComponent={() => (
+  renderHeader = () => {
+    const { searchKeyword, setSearchKeyword, orderBy, setOrderBy } = this.props;
+
+    return (
+      <>
+        <View style={{ padding: 8, paddingBottom: 0 }}>
+          <TextInput
+            style={styles.textInput}
+            value={searchKeyword}
+            onChangeText={(value) => setSearchKeyword(value)}
+            placeholder='Search'
+          />
+        </View>
         <Picker
           selectedValue={orderBy}
           onValueChange={itemValue =>
@@ -43,26 +58,53 @@ export const RepositoryListContainer = ({ repositories, loading, orderBy, setOrd
           <Picker.Item label='Highest rated repositories' value='highest rated repositories' />
           <Picker.Item label='Lowest rated repositories' value='lowest rated repositories' />
         </Picker>
-      )}
-    />
-  );
-};
+      </>
+    );
+  };
+
+  render() {
+    const { repositories, loading } = this.props;
+
+    const repositoryNodes = repositories?.repositories?.edges?.map(edge => edge.node) || [];
+
+    return (
+      <FlatList
+        testID='flatList'
+        data={repositoryNodes}
+        ItemSeparatorComponent={ItemSeparator}
+        renderItem={({ item, index: i }) => {
+          if (loading && i === 0) return <View><Text>Loading repositories...</Text></View>;
+          else if (!item && i === 0) return <View><Text>No repositories</Text></View>;
+          else if (!item) return null;
+
+          return <RepositoryItem item={item} />;
+        }}
+        keyExtractor={({ id }) => id}
+        ListHeaderComponent={this.renderHeader}
+      />
+    );
+  }
+}
+
 
 const RepositoryList = () => {
   const { data: repositories, loading, refetch } = useRepositories('Latest repositories');
 
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [orderBy, setOrderBy] = useState('latest repositories');
+  
+  const [debouncedSearchKeyword] = useDebounce(searchKeyword, 500);
 
-  const fetchRepositories = () => {
+  const refetchRepositories = () => {
     switch (orderBy) {
     case 'latest repositories':
-      refetch({ orderBy: 'CREATED_AT', orderDirection: 'DESC' });
+      refetch({ searchKeyword: debouncedSearchKeyword, orderBy: 'CREATED_AT', orderDirection: 'DESC' });
       break;
     case 'highest rated repositories':
-      refetch({ orderBy: 'RATING_AVERAGE', orderDirection: 'DESC' });
+      refetch({ searchKeyword: debouncedSearchKeyword, orderBy: 'RATING_AVERAGE', orderDirection: 'DESC' });
       break;
     case 'lowest rated repositories':
-      refetch({ orderBy: 'RATING_AVERAGE', orderDirection: 'ASC' });
+      refetch({ searchKeyword: debouncedSearchKeyword, orderBy: 'RATING_AVERAGE', orderDirection: 'ASC' });
       break;
     default:
       throw new Error(`Unhandled orderBy: ${orderBy}`);
@@ -70,12 +112,14 @@ const RepositoryList = () => {
   };
 
   useEffect(() => {
-    fetchRepositories();
-  }, [orderBy]);
+    refetchRepositories();
+  }, [debouncedSearchKeyword, orderBy]);
 
   return <RepositoryListContainer
     repositories={repositories}
     loading={loading}
+    searchKeyword={searchKeyword}
+    setSearchKeyword={setSearchKeyword}
     orderBy={orderBy}
     setOrderBy={setOrderBy}
   />;

@@ -35,13 +35,15 @@ const styles = StyleSheet.create({
   }
 });
 
-const RepositoryItem = ({ item: repository }) => {
+const RepositoryItem = ({ item: repository, loading }) => {
   const navigate = useNavigate();
 
   const processCount = count => {
     if (count < 1000) return count;
     return `${(count / 1000).toFixed(1)}k`;
   };
+
+  if (loading) return (<View><Text>Loading repositories...</Text></View>);
 
   return (
     <Pressable onPress={() => navigate(`/repositories/${repository.id}`)}>
