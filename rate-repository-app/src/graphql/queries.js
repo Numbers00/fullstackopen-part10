@@ -32,10 +32,16 @@ export const GET_REPOSITORY = gql`
 `;
 
 export const GET_ME = gql`
-  query {
+  query GetMe($includeReviews: Boolean = false) {
     me {
       id
       username
+      reviews @include(if: $includeReviews) {
+        edges {
+          ...ReviewEdgeFields
+        }
+      }
     }
   }
+  ${REVIEW_EDGE_FIELDS}
 `;

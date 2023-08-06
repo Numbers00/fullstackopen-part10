@@ -1,5 +1,5 @@
 import { Picker } from '@react-native-picker/picker';
-import { useDebounce } from 'use-debounce';
+// import { useDebounce } from 'use-debounce';
 
 import { useCallback, useEffect, useState } from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
@@ -84,7 +84,7 @@ const RepositoryList = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [orderBy, setOrderBy] = useState('latest repositories');
   
-  const [debouncedSearchKeyword] = useDebounce(searchKeyword, 500);
+  // const [debouncedSearchKeyword] = useDebounce(searchKeyword, 500);
 
   const fetchRepositories = () => {
     switch (orderBy) {
